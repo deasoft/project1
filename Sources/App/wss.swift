@@ -73,6 +73,14 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
         
         ws.send("Connected. Your id: \(player.id) Wait other players.")
         
+        let playerEncodedData = try? JSONEncoder().encode(player)
+        if let text = playerEncodedData {
+            for player in PLAYERS {
+                player.value.ws.send("New player joined.")
+                player.value.ws.send(text)
+            }
+        }
+        
     }
     
 }
