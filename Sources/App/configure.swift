@@ -1,4 +1,5 @@
 import Vapor
+import Leaf
 
 /// Called before your application initializes.
 ///
@@ -12,6 +13,12 @@ public func configure(
     let router = EngineRouter.default()
     try routes(router)
     services.register(router, as: Router.self)
+    
+    // Create a new NIO websocket server
+    let wss = NIOWebSocketServer.default()
+    try websockets(wss)
+    services.register(wss, as: WebSocketServer.self)
 
-    // Configure the rest of your application here
+    try services.register(LeafProvider())
+    config.prefer(LeafRenderer.self, for: ViewRenderer.self)
 }
