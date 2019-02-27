@@ -1,13 +1,43 @@
 <html>
 <head>
 <script>
-    var socket = new WebSocket("wss://tagapi.vapor.cloud");
+    //var socket = new WebSocket("wss://tagapi.vapor.cloud");
+    var socket = new WebSocket("ws://localhost:8080");
+    var userID;
+    var wsdata;
     socket.onmessage = function(e){
-        console.log(e.data);
+        wsdata = JSON.parse(e.data);
+        if(typeof wsdata.connected != 'undefined') {
+            userID = wsdata.connected;
+        }
+        if(typeof wsdata.move != 'undefined') {
+            console.log("сделан ход", wsdata.move);
+        }
+        if(typeof wsdata.start != 'undefined') {
+            console.log("игра началась");
+        }
+        if(typeof wsdata.done != 'undefined') {
+            console.log("Игра завершена. Победил игрок", wsdata.done);
+        }
+        if(typeof wsdata.timer != 'undefined') {
+            console.log("timer", wsdata.timer);
+        }
     };
 </script>
+
+<script>
+    function nextMove() {
+        socket.send("{\"user\":" + userID + ", \"body\":\"move\"}");
+    }
+    function done() {
+        socket.send("{\"user\":" + userID + ", \"body\":\"done\"}");
+    }
+</script>
+
 </head>
 <body>
     <h1>Welcome to Million Hairs</h1>
+    <button onclick="nextMove()">Сделать ход</button>
+    <button onclick="done()">Собрал</button>
 </body>
 </html>

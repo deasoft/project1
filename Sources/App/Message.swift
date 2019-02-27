@@ -16,3 +16,4 @@ struct Message: Codable {
         case body
     }
 }
+

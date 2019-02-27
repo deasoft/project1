@@ -9,6 +9,8 @@ import Vapor
 
 var USERS: [WebSocket] = []
 var PLAYERS = [Int:Player]()
+var countdown: Int = 30
+
 
 public func websockets(_ wss: NIOWebSocketServer) throws {
     
@@ -38,9 +40,14 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
     }
     
     wss.get { ws, req in
+        
+        countdown = 30
+        
         // Add a new on text callback
         ws.onText { ws, text in
-            print("text:", text)
+            
+            if countdown > 0 { return } // Если игра не началась на кнопки не реагируем
+            
             do {
                 //Decode retrived data with JSONDecoder and assing type of Article object
                 let message = try JSONDecoder().decode(Message.self, from: text)
@@ -50,18 +57,26 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
                 switch message.body {
                 case "move":
                     player.moves += 1
+                    let playerId = player.id
+                    for player in PLAYERS {
+                        player.value.ws.send("{\"move\":\(playerId)}")
+                    }
                 case "done":
-                    break
+                    countdown = 30
+                    let playerId = player.id
+                    for player in PLAYERS {
+                        player.value.ws.send("{\"done\":\(playerId)}")
+                    }
                 default:
                     break
                 }
                 
                 let playerEncodedData = try? JSONEncoder().encode(player)
-                if let text = playerEncodedData {
-                    for player in PLAYERS {
-                        player.value.ws.send(text)
-                    }
-                }
+//                if let text = playerEncodedData {
+//                    for player in PLAYERS {
+//                        player.value.ws.send(text)
+//                    }
+//                }
     
             } catch let jsonError {
                 print(jsonError)
@@ -71,13 +86,14 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
         let player = Player(ws: ws)
         PLAYERS[player.id] = player
         
-        ws.send("Connected. Your id: \(player.id) Wait other players.")
+        //ws.send("Connected. Your id: \(player.id) Wait other players.")
+        ws.send("{\"connected\":\(player.id)}")
         
         let playerEncodedData = try? JSONEncoder().encode(player)
         if let text = playerEncodedData {
             for player in PLAYERS {
-                player.value.ws.send("New player joined.")
-                player.value.ws.send(text)
+                player.value.ws.send("{\"newplayer\":\(player.value.id)}")
+                //player.value.ws.send(text)
             }
         }
         
