@@ -19,8 +19,8 @@ do {
     )
     
     
-    let url = drop.config["app", "url"]?.string ?? "localhost:8080";
-    print("url:", url);
+//    let url = drop.config["app", "url"]?.string ?? "localhost:8080";
+//    print("url:", url);
     
     try App.boot(app)
     
