@@ -52,26 +52,43 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
                 //Decode retrived data with JSONDecoder and assing type of Article object
                 let message = try JSONDecoder().decode(Message.self, from: text)
                 
-                guard let player = PLAYERS[message.user] else { return }
                 
                 switch message.body {
                 case "move":
+                    guard let player = PLAYERS[message.user] else { return }
                     player.moves += 1
                     let playerId = player.id
                     for player in PLAYERS {
                         player.value.ws.send("{\"move\":\(playerId)}")
                     }
                 case "done":
+                    guard let player = PLAYERS[message.user] else { return }
                     countdown = 30
                     let playerId = player.id
                     for player in PLAYERS {
                         player.value.ws.send("{\"done\":\(playerId)}")
                     }
+                case "new":
+                    let player = Player(ws: ws)
+                    PLAYERS[player.id] = player
+                    ws.send("{\"connected\":\(player.id)}")
+                    
+                    let playerEncodedData = try? JSONEncoder().encode(player)
+                    if let _ = playerEncodedData {
+                        for player in PLAYERS {
+                            player.value.ws.send("{\"newplayer\":\(player.value.id)}")
+                            //player.value.ws.send(text)
+                        }
+                    }
+                case "reconnect":
+                    guard let player = PLAYERS[message.user] else { return }
+                    player.ws = ws
+                    ws.send("{\"reconnected\":\(player.id)}")
                 default:
                     break
                 }
                 
-                let playerEncodedData = try? JSONEncoder().encode(player)
+//                let playerEncodedData = try? JSONEncoder().encode(player)
 //                if let text = playerEncodedData {
 //                    for player in PLAYERS {
 //                        player.value.ws.send(text)
@@ -83,19 +100,12 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
             }
         }
         
-        let player = Player(ws: ws)
-        PLAYERS[player.id] = player
+        
         
         //ws.send("Connected. Your id: \(player.id) Wait other players.")
-        ws.send("{\"connected\":\(player.id)}")
+        ws.send("{\"connected\":1}")
         
-        let playerEncodedData = try? JSONEncoder().encode(player)
-        if let text = playerEncodedData {
-            for player in PLAYERS {
-                player.value.ws.send("{\"newplayer\":\(player.value.id)}")
-                //player.value.ws.send(text)
-            }
-        }
+        
         
     }
     

@@ -3,6 +3,7 @@ import Service
 import Vapor
 import Foundation
 
+
 // The contents of main are wrapped in a do/catch block because any errors that get raised to the top level will crash Xcode
 do {
     var config = Config.default()
@@ -16,6 +17,10 @@ do {
         environment: env,
         services: services
     )
+    
+    
+    let url = drop.config["app", "url"]?.string ?? "localhost:8080";
+    print("url:", url);
     
     try App.boot(app)
     

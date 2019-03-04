@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		CE3E64E72225571D00110F41 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3E64E62225571D00110F41 /* Message.swift */; };
+		CE3F15EB22285518000F5BD7 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		CEE6155C2224406B003E5664 /* wss.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE6155B2224406B003E5664 /* wss.swift */; };
 		CEE6155E22250759003E5664 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE6155D22250759003E5664 /* Players.swift */; };
 		OBJ_1000 /* CNIOSHA1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-nio::CNIOSHA1::Product" /* CNIOSHA1.framework */; };
@@ -880,7 +881,6 @@
 		OBJ_2459 /* CNIODarwin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-nio::CNIODarwin::Product" /* CNIODarwin.framework */; };
 		OBJ_2460 /* CNIOLinux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "swift-nio::CNIOLinux::Product" /* CNIOLinux.framework */; };
 		OBJ_2492 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_139 /* Package.swift */; };
-		OBJ_2498 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_2509 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_317 /* Package.swift */; };
 		OBJ_2515 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_691 /* Package.swift */; };
 		OBJ_740 /* boot.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* boot.swift */; };
@@ -4207,6 +4207,7 @@
 
 /* Begin PBXFileReference section */
 		CE3E64E62225571D00110F41 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		CE3F15E92228509A000F5BD7 /* app.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = app.json; sourceTree = "<group>"; };
 		CEE6155B2224406B003E5664 /* wss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wss.swift; sourceTree = "<group>"; };
 		CEE6155D22250759003E5664 /* Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
 		"Console::Command::Product" /* Command.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Command.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5536,6 +5537,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE3F15E82228505F000F5BD7 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				CE3F15E92228509A000F5BD7 /* app.json */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -7369,6 +7378,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CE3F15E82228505F000F5BD7 /* Config */,
 				OBJ_8 /* Run */,
 				OBJ_10 /* App */,
 			);
@@ -9796,7 +9806,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_2498 /* Package.swift in Sources */,
+				CE3F15EB22285518000F5BD7 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

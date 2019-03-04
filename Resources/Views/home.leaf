@@ -1,8 +1,8 @@
 <html>
 <head>
 <script>
-    var socket = new WebSocket("wss://tagapi.vapor.cloud");
-    //var socket = new WebSocket("ws://localhost:8080");
+    //var socket = new WebSocket("wss://tagapi.vapor.cloud");
+    var socket = new WebSocket("ws://localhost:8080");
     var userID;
     var wsdata;
     socket.onmessage = function(e){
