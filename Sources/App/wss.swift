@@ -46,7 +46,6 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
         // Add a new on text callback
         ws.onText { ws, text in
             
-            if countdown > 0 { return } // Если игра не началась на кнопки не реагируем
             
             do {
                 //Decode retrived data with JSONDecoder and assing type of Article object
@@ -55,6 +54,7 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
                 
                 switch message.body {
                 case "move":
+                    if countdown > 0 { return } // Если игра не началась на кнопки не реагируем
                     guard let player = PLAYERS[message.user] else { return }
                     player.moves += 1
                     let playerId = player.id
@@ -62,6 +62,7 @@ public func websockets(_ wss: NIOWebSocketServer) throws {
                         player.value.ws.send("{\"move\":\(playerId)}")
                     }
                 case "done":
+                    if countdown > 0 { return } // Если игра не началась на кнопки не реагируем
                     guard let player = PLAYERS[message.user] else { return }
                     countdown = 30
                     let playerId = player.id
